@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* --yok: #004F9B; */
 }
 
 @theme inline {
@@ -12,10 +13,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  --color-yok-blue: #004F9B;
+  --color-yok-darkblue: #002F5C;
+  --color-yok-yellow: #FFEE00;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* --background: #0a0a0a;
+    --foreground: #ededed; */
+    --background: #FDFEFE;
+    --foreground: #0a0a0a;
+    /* yok : #004F9B */
   }
 }
 
