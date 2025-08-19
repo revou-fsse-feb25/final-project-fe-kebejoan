@@ -1,4 +1,4 @@
-export default function Home() {
+const Dashboard = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4">
       <div className="bg-secondary p-4 rounded-lg"></div>
@@ -7,4 +7,6 @@ export default function Home() {
       <div className="bg-secondary p-4 rounded-lg"></div>
     </div>
   );
-}
+};
+
+export default Dashboard;

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
+import { ThemeProvider } from "@/components/providers/ThemeProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,11 +14,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Eng Tracker | Engineering Tracker Portal",
-  description: "Engineering Tracker Portal",
+  title: "Login to Eng. Tracker",
+  description: "",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
-export default async function RootLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,21 +31,16 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
-        {/* <LayoutWrapper defaultOpen={defaultOpen}>{children}</LayoutWrapper> */}
-        {/* <ThemeProvider
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <AppSidebar /> */}
-        <main className="w-full">
-          {/* <NavBar /> */}
-          <div className="px-4">{children}</div>
-        </main>
-        {/* </SidebarProvider>
-        </ThemeProvider> */}
+          <div className="w-full h-screen flex justify-center sm:items-center py-8">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

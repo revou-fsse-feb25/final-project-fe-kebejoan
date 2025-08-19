@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
+// import Header from "./components/header/page";
+import AppSidebar from "@/components/AppSidebar";
+import NavBar from "@/components/NavBar";
+import { ThemeProvider } from "@/components/providers/ThemeProviders";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { cookies } from "next/headers";
+import LayoutWrapper from "@/components/wrapper/LayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,31 +24,34 @@ export const metadata: Metadata = {
   description: "Engineering Tracker Portal",
 };
 
-export default async function RootLayout({
+export default async function yLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
         {/* <LayoutWrapper defaultOpen={defaultOpen}>{children}</LayoutWrapper> */}
-        {/* <ThemeProvider
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
           <SidebarProvider defaultOpen={defaultOpen}>
-            <AppSidebar /> */}
-        <main className="w-full">
-          {/* <NavBar /> */}
-          <div className="px-4">{children}</div>
-        </main>
-        {/* </SidebarProvider>
-        </ThemeProvider> */}
+            <AppSidebar />
+            <main className="w-full">
+              <NavBar />
+              <div className="px-4">{children}</div>
+            </main>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
