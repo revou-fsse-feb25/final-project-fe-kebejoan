@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description: "Engineering Tracker Portal",
 };
 
-export default async function yLayout({
+export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -33,26 +33,21 @@ export default async function yLayout({
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
+    <>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
       >
-        {/* <LayoutWrapper defaultOpen={defaultOpen}>{children}</LayoutWrapper> */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <AppSidebar />
-            <main className="w-full">
-              <NavBar />
-              <div className="px-4">{children}</div>
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+        <SidebarProvider defaultOpen={defaultOpen}>
+          <AppSidebar />
+          <main className="w-full">
+            <NavBar />
+            <div className="px-4">{children}</div>
+          </main>
+        </SidebarProvider>
+      </ThemeProvider>
+    </>
   );
 }

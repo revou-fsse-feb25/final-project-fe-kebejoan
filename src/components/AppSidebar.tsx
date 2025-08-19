@@ -14,12 +14,17 @@ import {
 import {
   ChevronUp,
   ClipboardList,
+  HardHat,
   Home,
+  HomeIcon,
+  Hourglass,
+  LayoutDashboardIcon,
   LogOut,
   Projector,
   Settings2,
   User,
   User2,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -29,14 +34,49 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
+const userItems = [
+  {
+    title: "Dashboard",
+    icon: <LayoutDashboardIcon />,
+    url: "/main/dashboard",
+  },
+  {
+    title: "Projects",
+    icon: <HardHat />,
+    url: "/main/projects",
+  },
+  {
+    title: "Timesheet Reports",
+    icon: <Hourglass />,
+    url: "/main/timesheet",
+  },
+  {
+    title: "Progress Reports",
+    icon: <ClipboardList />,
+    url: "/main/progress",
+  },
+];
+
+const adminItems = [
+  {
+    title: "Users",
+    icon: <Users />,
+    url: "/main/users",
+  },
+];
+
 const AppSidebar = () => {
+  const admin = true; //change this dynamic
+
+  const items = admin ? [...adminItems, ...userItems] : userItems;
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="py-4">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/">
+              <Link href="/main/dashboard">
                 <img
                   src="/yok-mock.png"
                   alt="comp-logo"
@@ -52,23 +92,19 @@ const AppSidebar = () => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarSeparator />
-          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupLabel>Navigation Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/">
-                    <Projector />
-                    My Projects
-                  </Link>
-                </SidebarMenuButton>
-                <SidebarMenuButton asChild>
-                  <Link href="/">
-                    <ClipboardList />
-                    Report
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -27,21 +27,17 @@ export default function LoginLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
+    <>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="w-full h-screen flex justify-center sm:items-center py-8">
-            {children}
-          </div>
-        </ThemeProvider>
-      </body>
-    </html>
+        <div className="w-full h-screen flex justify-center items-center py-8 -translate-y-32">
+          {children}
+        </div>
+      </ThemeProvider>
+    </>
   );
 }
