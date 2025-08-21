@@ -1,16 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-
-export type Project = {
-  // id: number;
-  pjtNo: string;
-  pjtName: string;
-  pjtPhase: string;
-  pjtStatus: "ONTRACK" | "LEADING" | "LAGGING";
-  assignedPM: string;
-  assignedPE: string;
-  assignedSE: string;
-};
+import { Project } from "@/types/tableTypes";
 
 export const columns: ColumnDef<Project>[] = [
   {
@@ -18,7 +8,7 @@ export const columns: ColumnDef<Project>[] = [
     header: "Project No",
     id: "link-pjtNo",
     cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>{row.original.pjtNo}</Link>
+      <Link href={`projects/${row.original.pjtNo}`}>{row.original.pjtNo}</Link>
     ),
   },
   {
@@ -26,18 +16,38 @@ export const columns: ColumnDef<Project>[] = [
     header: "Project Name",
     id: "link-pjtName",
     cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>
+      <Link href={`projects/${row.original.pjtNo}`}>
         {row.original.pjtName}
       </Link>
     ),
   },
   {
-    accessorKey: "pjtPhase",
+    accessorKey: "epcName",
+    header: "EPC",
+    id: "link-epcName",
+    cell: ({ row }) => (
+      <Link href={`projects/${row.original.pjtNo}`}>
+        {row.original.epcName}
+      </Link>
+    ),
+  },
+  {
+    accessorKey: "ownerName",
+    header: "Owner",
+    id: "link-ownerName",
+    cell: ({ row }) => (
+      <Link href={`projects/${row.original.pjtNo}`}>
+        {row.original.ownerName}
+      </Link>
+    ),
+  },
+  {
+    accessorKey: "currentPhase",
     header: "Phase",
     id: "link-pjtPhase",
     cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>
-        {row.original.pjtPhase}
+      <Link href={`projects/${row.original.pjtNo}`}>
+        {row.original.currentPhase?.phaseName}
       </Link>
     ),
   },
@@ -46,39 +56,33 @@ export const columns: ColumnDef<Project>[] = [
     header: "Status",
     id: "link-pjtStatus",
     cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>
-        {row.original.pjtStatus}
+      <Link href={`projects/${row.original.pjtNo}`}>
+        {row.original.executionStatus}
       </Link>
     ),
   },
   {
-    accessorKey: "assignedPM",
-    header: "PM",
-    id: "link-assignedPM",
-    cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>
-        {row.original.assignedPM}
-      </Link>
-    ),
+    accessorKey: "startDate",
+    header: "Start Date",
+    id: "link-startDate",
+    cell: ({ row }) => {
+      const date = row.original.timeStart
+        ? new Date(row.original.timeStart).toLocaleDateString("en-GB")
+        : "-";
+
+      return <Link href={`projects/${row.original.pjtNo}`}>{date}</Link>;
+    },
   },
   {
-    accessorKey: "assignedPE",
-    header: "PE",
-    id: "link-assignedPE",
-    cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>
-        {row.original.assignedPE}
-      </Link>
-    ),
-  },
-  {
-    accessorKey: "assignedSE",
-    header: "SE",
-    id: "link-assignedSE",
-    cell: ({ row }) => (
-      <Link href={`/project/${row.original.pjtNo}`}>
-        {row.original.assignedSE}
-      </Link>
-    ),
+    accessorKey: "endDate",
+    header: "End Date",
+    id: "link-endDate",
+    cell: ({ row }) => {
+      const date = row.original.timeEnd
+        ? new Date(row.original.timeEnd).toLocaleDateString("en-GB")
+        : "-";
+
+      return <Link href={`projects/${row.original.pjtNo}`}>{date}</Link>;
+    },
   },
 ];
