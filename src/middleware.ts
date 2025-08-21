@@ -6,9 +6,6 @@ import { UserRole } from "./types/tableTypes";
 export async function middleware(req: NextRequest) {
 	const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 	const isAuthenticated = !!token;
-	console.log("token: ", token);
-	console.log("isAuthenticated: ", isAuthenticated);
-	console.log("cookies: ", req.cookies.getAll());
 	const path = req.nextUrl.pathname;
 	const isAdmin = token?.role === UserRole.ADMIN;
 
