@@ -27,6 +27,7 @@ import z from "zod";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { getRandomValues } from "crypto";
+import { toast } from "sonner";
 
 const login = () => {
 	const form = useForm<z.infer<typeof loginSchema>>({
@@ -53,6 +54,11 @@ const login = () => {
 				// setLoading(false);
 				// router.push("/");
 				window.location.href = "/main/dashboard";
+			} else {
+				toast.error("Login Failed", {
+					description: "Invalid usercode or password",
+				});
+				// setLoading(false);
 			}
 		} catch (error) {
 			// setError("An unexpected error occurred");
