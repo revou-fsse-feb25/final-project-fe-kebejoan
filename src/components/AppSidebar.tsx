@@ -36,6 +36,7 @@ import {
 	DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import { useAuth } from "@/hooks/useAuth";
 
 const userItems = [
 	{
@@ -73,9 +74,9 @@ function handleSignout() {
 }
 
 const AppSidebar = () => {
-	const admin = true; //change this dynamic
+	const { auth } = useAuth();
 
-	const items = admin ? [...adminItems, ...userItems] : userItems;
+	const items = auth.isAdmin ? [...adminItems, ...userItems] : userItems;
 
 	return (
 		<Sidebar collapsible="icon">
