@@ -2,7 +2,7 @@
 import axios from "axios";
 import * as T from "@/types/tableTypes";
 import * as DTO from "@/types/dtos";
-import { sessionFn } from "./api._get-session";
+import { getSession } from "next-auth/react";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/reports/timesheet`;
 
@@ -15,7 +15,7 @@ const apiTimesheet = axios.create({
 
 // Attach token
 apiTimesheet.interceptors.request.use(async (config) => {
-  const session = await sessionFn();
+  const session = await getSession();
   if (session?.accessToken) {
     config.headers.Authorization = `Bearer ${session.accessToken}`;
   }

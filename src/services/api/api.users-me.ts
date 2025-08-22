@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as T from "@/types/tableTypes";
 import * as DTO from "@/types/dtos";
-import { sessionFn } from "./api._get-session";
+import { getSession } from "next-auth/react";
 
 // Setup base axios instance for /users/me
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/me`;
@@ -14,7 +14,7 @@ const apiMe = axios.create({
 });
 
 apiMe.interceptors.request.use(async (config) => {
-  const session = await sessionFn();
+  const session = await getSession();
   if (session?.accessToken) {
     config.headers.Authorization = `Bearer ${session.accessToken}`;
   }
@@ -52,6 +52,7 @@ export const reportTimesheet = async (
 export const getMyTimesheetReports = async (): Promise<T.TimesheetReport[]> => {
   try {
     const res = await apiMe.get("/timesheet-reports");
+    if (!res.data) return []; //TODO: do for all array endpoints
     return res.data;
   } catch (err) {
     console.error("Error fetching my timesheet reports:", err);
@@ -63,6 +64,7 @@ export const getMyTimesheetReports = async (): Promise<T.TimesheetReport[]> => {
 export const getMyProgressReports = async (): Promise<T.ProgressReport[]> => {
   try {
     const res = await apiMe.get("/progress-reports");
+    if (!res.data) return []; //TODO: do for all array endpoints
     return res.data;
   } catch (err) {
     console.error("Error fetching my progress reports:", err);
@@ -71,9 +73,10 @@ export const getMyProgressReports = async (): Promise<T.ProgressReport[]> => {
 };
 
 // 5. Get my projects
-export const getMyProjects = async (): Promise<T.Project[]> => {
+export const getMyProjects = async (): Promise<T.Project[] | undefined> => {
   try {
     const res = await apiMe.get("/projects");
+    if (!res.data) return undefined; //TODO: do for all array endpoints
     return res.data;
   } catch (err) {
     console.error("Error fetching my projects:", err);

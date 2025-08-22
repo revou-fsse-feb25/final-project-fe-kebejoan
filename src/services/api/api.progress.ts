@@ -3,7 +3,7 @@
 import axios from "axios";
 import * as T from "@/types/tableTypes"; // <-- place your ProgressReport type here
 import * as DTO from "@/types/dtos"; // <-- if you have related DTOs
-import { sessionFn } from "./api._get-session";
+import { getSession } from "next-auth/react";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/reports/progress`;
 
@@ -15,7 +15,7 @@ const apiProgress = axios.create({
 });
 
 apiProgress.interceptors.request.use(async (config) => {
-  const session = await sessionFn();
+  const session = await getSession();
   if (session?.accessToken) {
     config.headers.Authorization = `Bearer ${session.accessToken}`;
   }
