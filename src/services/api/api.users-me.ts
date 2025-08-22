@@ -73,10 +73,9 @@ export const getMyProgressReports = async (): Promise<T.ProgressReport[]> => {
 };
 
 // 5. Get my projects
-export const getMyProjects = async (): Promise<T.Project[] | undefined> => {
+export const getMyProjects = async (): Promise<T.Project[]> => {
   try {
     const res = await apiMe.get("/projects");
-    if (!res.data) return undefined; //TODO: do for all array endpoints
     return res.data;
   } catch (err) {
     console.error("Error fetching my projects:", err);

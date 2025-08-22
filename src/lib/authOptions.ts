@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
             dept: user.dept,
             accessToken: access_token,
             refreshToken: refresh_token,
-            accessTokenExpires: Date.now() + expires_in * 1000,
+            accessTokenExpires: Date.now() + expires_in * 10,
           };
         } catch (err) {
           console.error("Authorize error:", err);

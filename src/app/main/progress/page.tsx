@@ -1,32 +1,32 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { columns } from "./timesheetColumns";
+import { columns } from "./progressColumns";
 import { DataTable } from "./timesheetDataTable";
-import { TimesheetReport, UserRole } from "@/types/tableTypes";
-import { getMyTimesheetReports } from "@/services/api/api.users-me";
+import { ProgressReport, UserRole } from "@/types/tableTypes";
+import { getMyProgressReports } from "@/services/api/api.users-me";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { fetchAllTimesheets } from "@/services/api/api.timesheet";
+import { fetchAllProgressReports } from "@/services/api/api.progress";
 
-async function getTimesheets(role: UserRole): Promise<TimesheetReport[]> {
+async function getReports(role: UserRole): Promise<ProgressReport[]> {
   if (role === UserRole.ADMIN) {
-    const timesheets = await fetchAllTimesheets();
-    return timesheets;
+    const progress = await fetchAllProgressReports();
+    return progress;
   } else {
-    const timesheets = await getMyTimesheetReports();
-    return timesheets;
+    const progress = await getMyProgressReports();
+    return progress;
   }
 }
 
-export default function Timesheet() {
+export default function Progress() {
   // change to async function after API fetch implementation
   const { session, auth } = useAuth();
-  const [projects, setProjects] = useState<TimesheetReport[]>([]);
+  const [projects, setProjects] = useState<ProgressReport[]>([]);
 
-  const loadTimesheets = async () => {
+  const loadReports = async () => {
     try {
-      const data = await getTimesheets(session?.user.role as UserRole);
+      const data = await getReports(session?.user.role as UserRole);
       setProjects(data);
     } catch (err) {
       console.error("Error fetching projects:", err);
@@ -35,7 +35,7 @@ export default function Timesheet() {
 
   useEffect(() => {
     if (auth.isAuth) {
-      loadTimesheets();
+      loadReports();
     }
   }, [auth.isAuth]);
 
