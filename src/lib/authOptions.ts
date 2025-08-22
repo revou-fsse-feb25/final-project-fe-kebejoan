@@ -1,8 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { UserRole, Department } from "@/types/tableTypes";
+import { JWT } from "next-auth/jwt";
 
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
@@ -23,7 +24,7 @@ async function refreshAccessToken(token: any) {
       accessToken: refreshed.access_token,
       accessTokenExpires: Date.now() + refreshed.expires_in * 1000,
       refreshToken: refreshed.refresh_token ?? token.refreshToken, // fallback to old refreshToken
-    };
+    } as JWT;
   } catch (error) {
     console.error("Error refreshing access token:", error);
     return { ...token, error: "RefreshAccessTokenError" };
@@ -106,7 +107,7 @@ export const authOptions: NextAuthOptions = {
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
           accessTokenExpires: user.accessTokenExpires,
-        };
+        } as JWT;
       }
 
       // Return token if still valid
