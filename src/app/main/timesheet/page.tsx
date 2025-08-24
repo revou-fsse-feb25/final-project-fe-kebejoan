@@ -44,7 +44,7 @@ export default function Timesheet() {
       <div className="rounded-lg col-span-4">
         <Card>
           <CardHeader className="font-bold">
-            {auth.isAdmin ? "All Projects" : "My Projects"}
+            {auth.isAdmin ? "All Timesheets" : "My Timesheet"}
           </CardHeader>
           <CardContent>
             <DataTable data={projects} columns={columns} />
