@@ -8,7 +8,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
     header: "Project No",
     id: "link-pjtNo",
     cell: ({ row }) => (
-      <Link href={`progress/${row.original.project?.pjtNo}`}>
+      <Link href={`progress/${row.original.id}`}>
         {row.original.project?.pjtNo}
       </Link>
     ),
@@ -18,7 +18,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
     header: "Project Name",
     id: "link-pjtName",
     cell: ({ row }) => (
-      <Link href={`progress/${row.original.project?.pjtNo}`}>
+      <Link href={`progress/${row.original.id}`}>
         {row.original.project?.pjtName}
       </Link>
     ),
@@ -28,7 +28,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
     header: "PM",
     id: "link-pmCode",
     cell: ({ row }) => (
-      <Link href={`progress/${row.original.project?.pjtNo}`}>
+      <Link href={`progress/${row.original.id}`}>
         {row.original.project?.assignedPM?.code}
       </Link>
     ),
@@ -38,7 +38,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
     header: "Phase",
     id: "link-pjtPhase",
     cell: ({ row }) => (
-      <Link href={`progress/${row.original.project?.pjtNo}`}>
+      <Link href={`progress/${row.original.id}`}>
         {row.original.phase?.phaseCode}
       </Link>
     ),
@@ -48,7 +48,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
     header: "Phase Advance",
     id: "link-advPhase",
     cell: ({ row }) => (
-      <Link href={`progress/${row.original.project?.pjtNo}`}>
+      <Link href={`progress/${row.original.id}`}>
         {row.original.phase?.phaseCode ? "Yes" : "No"}
       </Link>
     ),
@@ -62,9 +62,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
         ? new Date(row.original.reportDate).toLocaleDateString("en-GB")
         : "-";
 
-      return (
-        <Link href={`progress/${row.original.project?.pjtNo}`}>{date}</Link>
-      );
+      return <Link href={`progress/${row.original.id}`}>{date}</Link>;
     },
   },
 ];
