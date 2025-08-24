@@ -39,8 +39,9 @@ function ProjectPhase({ project }: { project?: T.Project }) {
             const dateStr = project?.[key] as string | undefined;
             return (
               <React.Fragment key={key}>
-                <div className="font-bold">Phase{index + 1}:</div>
+                <div className="font-bold">Phase{index + 1}</div>
                 <div key={index}>
+                  {": "}
                   {dateStr ? new Date(dateStr).toLocaleDateString() : "N/A"}
                 </div>
               </React.Fragment>
@@ -61,20 +62,23 @@ function ProjectAssignments({ project }: { project?: T.Project }) {
       </CardHeader>
       <CardContent className="w-full">
         <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-2">
-          <div className="font-bold col-span-1">Project Manager: </div>
+          <div className="font-bold col-span-1">Project Manager</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-2 2xl:col-span-2 text-wrap">
+            {": "}
             {project?.assignedPM?.name} {"("}
             {project?.assignedPM?.code}
             {")"}
           </div>
-          <div className="font-bold col-span-1">System Engineer: </div>
+          <div className="font-bold col-span-1">System Engineer</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-2 2xl:col-span-2 text-wrap">
+            {": "}
             {project?.assignedSE?.name} {"("}
             {project?.assignedSE?.code}
             {")"}
           </div>
-          <div className="font-bold col-span-1">Project Engineer: </div>
+          <div className="font-bold col-span-1">Project Engineer</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-2 2xl:col-span-2 text-wrap">
+            {": "}
             {project?.assignedPE?.name} {"("}
             {project?.assignedPE?.code}
             {")"}
@@ -132,20 +136,24 @@ function ProjectIdentity({ project }: { project?: T.Project }) {
       </CardHeader>
       <CardContent className="w-full">
         <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 gap-2">
-          <div className="font-bold col-span-1">Project Number: </div>
+          <div className="font-bold col-span-1">Project Number</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
+            {": "}
             {project?.pjtNo}
           </div>
-          <div className="font-bold col-span-1">Project Name: </div>
+          <div className="font-bold col-span-1">Project Name</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
+            {": "}
             {project?.pjtName}
           </div>
-          <div className="font-bold col-span-1">EPC: </div>
+          <div className="font-bold col-span-1">EPC</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
+            {": "}
             {project?.epcName}
           </div>
-          <div className="font-bold col-span-1">Owner: </div>
+          <div className="font-bold col-span-1">Owner</div>
           <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
+            {": "}
             {project?.ownerName}
           </div>
         </div>
