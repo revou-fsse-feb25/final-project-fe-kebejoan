@@ -8,6 +8,9 @@ import { getMyProgressReports } from "@/services/api/api.users-me";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { fetchAllProgressReports } from "@/services/api/api.progress";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 
 async function getReports(role: UserRole): Promise<ProgressReport[]> {
   if (role === UserRole.ADMIN) {
@@ -44,7 +47,16 @@ export default function Progress() {
       <div className="rounded-lg col-span-4">
         <Card>
           <CardHeader className="font-bold">
-            {auth.isAdmin ? "All Projects" : "My Projects"}
+            <div className="flex justify-between">
+              <div>
+                {auth.isAdmin ? "All Progress Report" : "My Progress Report"}
+              </div>
+              <Link href="/main/progress/create">
+                <Button className="cursor-pointer">
+                  <PlusCircle />
+                </Button>
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
             <DataTable data={projects} columns={columns} />

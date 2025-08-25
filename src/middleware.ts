@@ -8,10 +8,18 @@ export async function middleware(req: NextRequest) {
   const isAuthenticated = !!token;
   const path = req.nextUrl.pathname;
   const isAdmin = token?.role === UserRole.ADMIN;
+  const isPM = token?.role === UserRole.PM;
 
   const isAuthPage = ["/login"].includes(path);
   const isProtectedPage = path.startsWith("/main");
-  const isAdminPage = path.startsWith("/my-product"); //TODO: can define if there is an admin page
+  const isAdminPage = path.startsWith("/main/users"); //TODO: can define if there is an admin page
+  const segments = path.split("/");
+  const isPMOrAdminPage =
+    path.startsWith("/main/projects/create") ||
+    (segments.length === 5 &&
+      segments[1] === "main" &&
+      segments[2] === "projects" &&
+      ["edit"].includes(segments[4]));
 
   if (isAuthenticated && isAuthPage) {
     return NextResponse.redirect(new URL("/main/dashboard", req.url));
@@ -23,6 +31,10 @@ export async function middleware(req: NextRequest) {
 
   if (!isAuthenticated && isProtectedPage) {
     return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (isAuthenticated && isPMOrAdminPage && !isPM && !isAdmin) {
+    return NextResponse.redirect(new URL("/main/projects", req.url));
   }
 
   return NextResponse.next();

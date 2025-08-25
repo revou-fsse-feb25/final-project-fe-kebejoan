@@ -9,6 +9,9 @@ import * as T from "@/types/tableTypes";
 import { fetchProjectByPjtNo } from "@/services/api/api.projects";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Edit, Edit2 } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ pjtNo: string }>;
@@ -163,7 +166,7 @@ function ProjectIdentity({ project }: { project?: T.Project }) {
 }
 
 export default function Project({ params }: PageProps) {
-  const { auth } = useAuth();
+  const { session, auth } = useAuth();
   const [project, setProject] = useState<T.Project>();
 
   useEffect(() => {
@@ -179,8 +182,19 @@ export default function Project({ params }: PageProps) {
   return (
     <>
       {/* <div>{(await params).pjtNo}</div> */}
+      <div className="w-full flex justify-between my-2">
+        <span className="text-2xl font-bold">
+          {project?.pjtNo} -- {project?.pjtName}
+        </span>
+        {(auth.isAdmin || session?.user.role === T.UserRole.PM) && (
+          <Link href={`/main/projects/${project?.pjtNo}/edit`}>
+            <Button className="cursor-pointer">
+              <Edit />
+            </Button>
+          </Link>
+        )}
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 w-full">
-        <span className="text-2xl font-bold">{project?.pjtNo}</span>
         <ScrollArea className="bg-secondary p-0 rounded-lg flex justify-center items-center col-span-1 lg:col-span-2 2xl:col-span-4 h-[364px]">
           <div className="w-full h-[364px] p-4 flex justify-center items-center">
             <div className="bg-secondary outline-1 outline-primary p-1 rounded-lg w-[1550px] h-full flex justify-center items-center">

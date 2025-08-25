@@ -8,6 +8,9 @@ import { getMyTimesheetReports } from "@/services/api/api.users-me";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { fetchAllTimesheets } from "@/services/api/api.timesheet";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 async function getTimesheets(role: UserRole): Promise<TimesheetReport[]> {
   if (role === UserRole.ADMIN) {
@@ -44,7 +47,14 @@ export default function Timesheet() {
       <div className="rounded-lg col-span-4">
         <Card>
           <CardHeader className="font-bold">
-            {auth.isAdmin ? "All Timesheets" : "My Timesheet"}
+            <div className="flex justify-between">
+              <div>{auth.isAdmin ? "All Timesheets" : "My Timesheet"}</div>
+              <Link href="/main/timesheet/create">
+                <Button className="cursor-pointer">
+                  <PlusCircle />
+                </Button>
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
             <DataTable data={projects} columns={columns} />

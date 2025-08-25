@@ -8,6 +8,9 @@ import { getMyProjects } from "@/services/api/api.users-me";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { fetchProjects } from "@/services/api/api.projects";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 
 async function getProjects(role: UserRole): Promise<Project[]> {
   if (role === UserRole.ADMIN) {
@@ -44,7 +47,18 @@ export default function Projects() {
       <div className="rounded-lg col-span-4">
         <Card>
           <CardHeader className="font-bold">
-            {auth.isAdmin ? "All Projects" : "My Projects"}
+            <div className="flex justify-between">
+              <div>{auth.isAdmin ? "All Projects" : "My Projects"}</div>
+              {(auth.isAdmin || session?.user.role === UserRole.PM) && (
+                <div>
+                  <Link href="/main/projects/create">
+                    <Button className="cursor-pointer">
+                      <PlusCircle />
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
             <DataTable data={projects} columns={columns} />
