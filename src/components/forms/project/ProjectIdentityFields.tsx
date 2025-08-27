@@ -6,13 +6,14 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, FieldValues } from "react-hook-form";
 import { CreateProjectFormValues } from "@/app/main/projects/create/page";
+import { UpdateProjectFormValues } from "@/app/main/projects/[pjtNo]/edit/page";
 
 export function ProjectIdentityFields({
 	form,
 }: {
-	form: UseFormReturn<CreateProjectFormValues>;
+	form: UseFormReturn<CreateProjectFormValues & UpdateProjectFormValues>;
 }) {
 	return (
 		<div className="col-span-1 xl:col-span-2 space-y-8">

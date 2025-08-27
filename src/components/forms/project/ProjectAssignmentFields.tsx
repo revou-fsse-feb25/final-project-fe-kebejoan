@@ -15,6 +15,7 @@ import { UseFormReturn } from "react-hook-form";
 import { User } from "@/types/tableTypes";
 import { phaseLookUp } from "@/types/lookUp";
 import { CreateProjectFormValues } from "@/app/main/projects/create/page";
+import { UpdateProjectFormValues } from "@/app/main/projects/[pjtNo]/edit/page";
 
 export function ProjectAssignmentFields({
 	form,
@@ -22,7 +23,7 @@ export function ProjectAssignmentFields({
 	SEs,
 	PEs,
 }: {
-	form: UseFormReturn<CreateProjectFormValues>;
+	form: UseFormReturn<CreateProjectFormValues & UpdateProjectFormValues>;
 	PMs?: User[];
 	SEs?: User[];
 	PEs?: User[];

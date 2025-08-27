@@ -2,11 +2,12 @@ import { FormField } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { DatePickerField } from "../DatePicker";
 import { CreateProjectFormValues } from "@/app/main/projects/create/page";
+import { UpdateProjectFormValues } from "@/app/main/projects/[pjtNo]/edit/page";
 
 export function ProjectDatePickerFields({
 	form,
 }: {
-	form: UseFormReturn<CreateProjectFormValues>;
+	form: UseFormReturn<CreateProjectFormValues & UpdateProjectFormValues>;
 }) {
 	return (
 		<div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
