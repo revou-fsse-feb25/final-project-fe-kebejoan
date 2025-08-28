@@ -41,14 +41,14 @@ export function ProjectAssignmentFields({
 							<FormControl>
 								<Select
 									onValueChange={(val) => field.onChange(Number(val))}
-									value={field.value?.toString()}
+									value={field.value ? String(field.value) : undefined}
 								>
 									<SelectTrigger className="w-full">
 										<SelectValue placeholder="Select PM" />
 									</SelectTrigger>
 									<SelectContent>
 										{PMs?.map((pm) => (
-											<SelectItem key={pm.id} value={pm.id.toString()}>
+											<SelectItem key={pm.id} value={String(pm.id)}>
 												{pm.name}
 											</SelectItem>
 										))}

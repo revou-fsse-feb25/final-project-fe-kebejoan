@@ -56,30 +56,59 @@ export default function EditProject({ params }: PageProps) {
 		//TODO: Still incorrect typing
 		resolver: zodResolver(createProjectSchema), //TODO: Still incorrect typing
 		defaultValues: {
-			pjtNo: project?.pjtNo,
-			pjtName: project?.pjtName,
-			epcName: project?.epcName,
-			ownerName: project?.ownerName,
-			assignedPMId: project?.assignedPMId,
-			assignedPEId: project?.assignedPEId,
-			assignedSEId: project?.assignedSEId,
-			currentPhaseId: project?.currentPhaseId,
-			executionStatus: project?.executionStatus,
-			timeStart: project?.timeStart,
-			timeEnd: project?.timeEnd,
-			phase1EndDate: project?.phase1EndDate,
-			phase2EndDate: project?.phase2EndDate,
-			phase3EndDate: project?.phase3EndDate,
-			phase4EndDate: project?.phase4EndDate,
-			phase5EndDate: project?.phase5EndDate,
-			phase6EndDate: project?.phase6EndDate,
-			phase7EndDate: project?.phase7EndDate,
-			phase8EndDate: project?.phase8EndDate,
-			phase9EndDate: project?.phase9EndDate,
+			pjtNo: "",
+			pjtName: "",
+			epcName: "",
+			ownerName: "",
+			assignedPMId: undefined,
+			assignedPEId: undefined,
+			assignedSEId: undefined,
+			currentPhaseId: undefined,
+			executionStatus: ExecutionStatus.ONTRACK,
+			timeStart: undefined,
+			timeEnd: undefined,
+			phase1EndDate: undefined,
+			phase2EndDate: undefined,
+			phase3EndDate: undefined,
+			phase4EndDate: undefined,
+			phase5EndDate: undefined,
+			phase6EndDate: undefined,
+			phase7EndDate: undefined,
+			phase8EndDate: undefined,
+			phase9EndDate: undefined,
 		},
 	});
 
+	useEffect(() => {
+		if (project) {
+			form.reset({
+				pjtNo: project.pjtNo ?? "",
+				pjtName: project.pjtName ?? "",
+				epcName: project.epcName ?? "",
+				ownerName: project.ownerName ?? "",
+				assignedPMId: project.assignedPMId ?? undefined,
+				assignedPEId: project.assignedPEId ?? undefined,
+				assignedSEId: project.assignedSEId ?? undefined,
+				currentPhaseId: project.currentPhaseId ?? undefined,
+				executionStatus: project.executionStatus ?? ExecutionStatus.ONTRACK,
+				timeStart: project.timeStart ?? undefined,
+				timeEnd: project.timeEnd ?? undefined,
+				phase1EndDate: project.phase1EndDate ?? undefined,
+				phase2EndDate: project.phase2EndDate ?? undefined,
+				phase3EndDate: project.phase3EndDate ?? undefined,
+				phase4EndDate: project.phase4EndDate ?? undefined,
+				phase5EndDate: project.phase5EndDate ?? undefined,
+				phase6EndDate: project.phase6EndDate ?? undefined,
+				phase7EndDate: project.phase7EndDate ?? undefined,
+				phase8EndDate: project.phase8EndDate ?? undefined,
+				phase9EndDate: project.phase9EndDate ?? undefined,
+			});
+			console.log("form reset", form.getValues());
+			console.log("useEffect project", project);
+		}
+	}, [project, form, PMs, SEs, PEs]);
 	const onSubmit = async (values: UpdateProjectFormValues) => {
+		console.log("onsubmit values:", values);
 		try {
 			if (project === undefined) {
 				toast.error("Project is not found");
@@ -87,15 +116,22 @@ export default function EditProject({ params }: PageProps) {
 			}
 			const res = await updateProject(project?.id, values);
 			if (!res) {
+				console.log("res", res);
 				toast.error("Project Creation Failed");
 			} else {
-				toast.success("Project Created Successfully!");
+				toast.success("Project Updated Successfully!");
 				router.push(`/main/projects/${values.pjtNo}`);
 			}
 		} catch (err) {
 			toast.error("Failed to create project");
 		}
 	};
+
+	if (!project) {
+		return <div>Loading...</div>;
+	}
+
+	console.log("form", form);
 
 	return (
 		<div className="container mx-auto py-6">
