@@ -25,14 +25,14 @@ async function getReports(role: UserRole): Promise<ProgressReport[]> {
 export default function Progress() {
   // change to async function after API fetch implementation
   const { session, auth } = useAuth();
-  const [projects, setProjects] = useState<ProgressReport[]>([]);
+  const [progress, setProgress] = useState<ProgressReport[]>([]);
 
   const loadReports = async () => {
     try {
       const data = await getReports(session?.user.role as UserRole);
-      setProjects(data);
+      setProgress(data);
     } catch (err) {
-      console.error("Error fetching projects:", err);
+      console.error("Error fetching progress:", err);
     }
   };
 
@@ -59,7 +59,7 @@ export default function Progress() {
             </div>
           </CardHeader>
           <CardContent>
-            <DataTable data={projects} columns={columns} />
+            <DataTable data={progress} columns={columns} />
           </CardContent>
         </Card>
       </div>

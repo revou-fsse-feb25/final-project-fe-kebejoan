@@ -49,7 +49,7 @@ export const columns: ColumnDef<ProgressReport>[] = [
     id: "link-advPhase",
     cell: ({ row }) => (
       <Link href={`progress/${row.original.id}`}>
-        {row.original.phase?.phaseCode ? "Yes" : "No"}
+        {row.original.advancePhase ? "Yes" : "No"}
       </Link>
     ),
   },
