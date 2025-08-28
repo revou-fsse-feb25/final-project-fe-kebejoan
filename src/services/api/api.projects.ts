@@ -67,7 +67,7 @@ export const createProject = async (
 
 // ✅ Get all projects (optionally with query params)
 export const fetchProjects = async (
-  query?: Record<string, any> // TODO: add query dto here
+  query?: DTO.ProjectQueryDto // TODO: add query dto here
 ): Promise<T.Project[]> => {
   try {
     const response = await apiProjects.get<T.Project[]>("/", {

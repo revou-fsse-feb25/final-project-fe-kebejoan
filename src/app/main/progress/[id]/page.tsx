@@ -23,7 +23,7 @@ export default function Progress({ params }: PageProps) {
         setProgress(data);
       })();
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, params]);
 
   return (
     <>
@@ -58,12 +58,12 @@ export default function Progress({ params }: PageProps) {
                 {": "}
                 {progress?.user?.code}
               </div>
-              <div className="font-bold col-span-1">This Week's Tasks</div>
+              <div className="font-bold col-span-1">This Weeks Tasks</div>
               <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
                 {": "}
                 {progress?.thisWeekTask}
               </div>
-              <div className="font-bold col-span-1">This Week's Issues</div>
+              <div className="font-bold col-span-1">This Weeks Issues</div>
               <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
                 {": "}
                 {progress?.thisWeekIssue}

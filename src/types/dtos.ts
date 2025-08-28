@@ -27,7 +27,7 @@ export interface ReportQueryDto {
   projectId?: number;
   pjtPhaseId?: number;
   reportDate?: Date | string;
-  OR?: any[];
+  // OR?: any[];
 }
 
 // ---------- PROGRESS DTOs ----------
@@ -95,8 +95,8 @@ export interface ProjectQueryDto {
   peCode?: string;
   userId?: number;
   userCode?: string;
-  OR?: any[];
-  AND?: any[];
+  // OR?: any[];
+  // AND?: any[];
 }
 
 export interface UpdateProjectDto extends Partial<CreateProjectDto> {

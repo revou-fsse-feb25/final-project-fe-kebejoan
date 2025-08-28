@@ -52,79 +52,152 @@ export const createProjectSchema = z.object({
     }),
   }),
 
-  timeStart: z
-    .union([z.string(), z.date()])
-    .refine((val) => !isNaN(new Date(val as any).getTime()), {
+  timeStart: z.union([z.string(), z.date()]).refine(
+    (val) => {
+      if (!val) return true; // allow undefined
+      const date = typeof val === "string" ? new Date(val) : val;
+      return !isNaN(date.getTime());
+    },
+    {
       message: "Invalid start date",
-    }),
+    }
+  ),
 
-  timeEnd: z
-    .union([z.string(), z.date()])
-    .refine((val) => !isNaN(new Date(val as any).getTime()), {
+  timeEnd: z.union([z.string(), z.date()]).refine(
+    (val) => {
+      if (!val) return true; // allow undefined
+      const date = typeof val === "string" ? new Date(val) : val;
+      return !isNaN(date.getTime());
+    },
+    {
       message: "Invalid end date",
-    }),
+    }
+  ),
 
   phase1EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 1 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 1 end date",
+      }
+    )
     .optional(),
 
   phase2EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 2 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 2 end date",
+      }
+    )
     .optional(),
 
   phase3EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 3 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 3 end date",
+      }
+    )
     .optional(),
 
   phase4EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 4 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 4 end date",
+      }
+    )
     .optional(),
 
   phase5EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 5 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 5 end date",
+      }
+    )
     .optional(),
 
   phase6EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 6 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 6 end date",
+      }
+    )
     .optional(),
 
   phase7EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 7 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 7 end date",
+      }
+    )
     .optional(),
 
   phase8EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 8 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 8 end date",
+      }
+    )
     .optional(),
 
   phase9EndDate: z
     .union([z.string(), z.date()])
-    .refine((val) => !val || !isNaN(new Date(val as any).getTime()), {
-      message: "Invalid phase 9 end date",
-    })
+    .refine(
+      (val) => {
+        if (!val) return true; // allow undefined
+        const date = typeof val === "string" ? new Date(val) : val;
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid phase 9 end date",
+      }
+    )
     .optional(),
 });
 

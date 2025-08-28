@@ -4,9 +4,8 @@ import { ThemeProvider } from "../providers/ThemeProviders";
 import { SidebarProvider } from "../ui/sidebar";
 import AppSidebar from "../AppSidebar";
 import NavBar from "../NavBar";
-import { cookies } from "next/headers";
 
-export default async function LayoutWrapper({
+export default function LayoutWrapper({
   children,
   defaultOpen,
 }: {

@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 import {
-  createProject,
   fetchProjectByPjtNo,
   updateProject,
 } from "@/services/api/api.projects";
@@ -24,7 +23,6 @@ import { ProjectPhaseFields } from "@/components/forms/project/ProjectPhaseField
 import { ProjectDatePickerFields } from "@/components/forms/project/ProjectDatePickerFields";
 import { Separator } from "@/components/ui/separator";
 import { ExecutionStatus } from "@/types/tableTypes";
-import { UserRole } from "@/types/tableTypes";
 import { useEffect, useState } from "react";
 import { Project } from "@/types/tableTypes";
 import { CreateProjectFormValues } from "../../create/page";
@@ -37,7 +35,7 @@ interface PageProps {
 
 export default function EditProject({ params }: PageProps) {
   const router = useRouter();
-  const { session, auth } = useAuth();
+  const { auth } = useAuth();
   const { PMs, SEs, PEs } = useProjectUsers(auth);
   const [project, setProject] = useState<Project>();
 
@@ -48,9 +46,9 @@ export default function EditProject({ params }: PageProps) {
         const data = await fetchProjectByPjtNo(pjtNo);
         setProject(data);
       })();
-      setProject(project);
+      // setProject(project);
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, params, project]);
 
   const form = useForm<CreateProjectFormValues>({
     //TODO: Still incorrect typing
@@ -103,8 +101,6 @@ export default function EditProject({ params }: PageProps) {
         phase8EndDate: project.phase8EndDate ?? undefined,
         phase9EndDate: project.phase9EndDate ?? undefined,
       });
-      console.log("form reset", form.getValues());
-      console.log("useEffect project", project);
     }
   }, [project, form, PMs, SEs, PEs]);
   const onSubmit = async (values: UpdateProjectFormValues) => {
@@ -116,13 +112,13 @@ export default function EditProject({ params }: PageProps) {
       }
       const res = await updateProject(project?.id, values);
       if (!res) {
-        console.log("res", res);
         toast.error("Project Creation Failed");
       } else {
         toast.success("Project Updated Successfully!");
         router.push(`/main/projects/${values.pjtNo}`);
       }
     } catch (err) {
+      console.error("Failed to create project", err);
       toast.error("Failed to create project");
     }
   };
@@ -145,7 +141,7 @@ export default function EditProject({ params }: PageProps) {
           <ProjectIdentityFields form={form} />
           <ProjectAssignmentFields form={form} PMs={PMs} SEs={SEs} PEs={PEs} />
           <ProjectDatePickerFields form={form} />
-          <span className="mt-4 text-xl font-bold">Phase's Date</span>
+          <span className="mt-4 text-xl font-bold">Phase Date</span>
           <Separator />
           <ProjectPhaseFields form={form} />
 

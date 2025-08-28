@@ -27,20 +27,27 @@ export default function Projects() {
   const { session, auth } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
 
-  const loadProjects = async () => {
-    try {
-      const data = await getProjects(session?.user.role as UserRole);
-      setProjects(data);
-    } catch (err) {
-      console.error("Error fetching projects:", err);
-    }
-  };
+  // const loadProjects = async () => {
+  //   try {
+  //     const data = await getProjects(session?.user.role as UserRole);
+  //     setProjects(data);
+  //   } catch (err) {
+  //     console.error("Error fetching projects:", err);
+  //   }
+  // };
 
   useEffect(() => {
     if (auth.isAuth) {
-      loadProjects();
+      (async () => {
+        try {
+          const data = await getProjects(session?.user.role as UserRole);
+          setProjects(data);
+        } catch (err) {
+          console.error("Error fetching progress:", err);
+        }
+      })();
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, session?.user.role]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 w-full">

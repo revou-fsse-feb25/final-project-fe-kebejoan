@@ -8,7 +8,6 @@ import { getMyProjects, reportProgress } from "@/services/api/api.users-me";
 import { createProgressSchema } from "@/types/schemas";
 import { Project } from "@/types/tableTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,7 +38,6 @@ export default function CreateProgressReport() {
   });
 
   useEffect(() => {
-    console.log("form error", form.formState.errors);
     if (auth.isAuth || session) {
       (async () => {
         try {
@@ -73,6 +71,7 @@ export default function CreateProgressReport() {
         router.push(`/main/progress/`);
       }
     } catch (err) {
+      console.error("Failed to create project", err);
       toast.error("Failed to create project");
     }
   };

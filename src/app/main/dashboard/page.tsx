@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { columns } from "./projectColumns";
 import { DataTable } from "./projectDataTable";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserRole, Project } from "@/types/tableTypes";
 import { getMyProjects } from "@/services/api/api.users-me";

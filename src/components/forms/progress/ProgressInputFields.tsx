@@ -111,7 +111,7 @@ export function ProgressInputFields({
         name="thisWeekTask"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>This week's tasks</FormLabel>
+            <FormLabel>This weeks tasks</FormLabel>
             <FormControl>
               <Input
                 type="text"
@@ -128,7 +128,7 @@ export function ProgressInputFields({
         name="thisWeekIssue"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>This week's tasks</FormLabel>
+            <FormLabel>This weeks tasks</FormLabel>
             <FormControl>
               <Input
                 type="text"
@@ -146,7 +146,7 @@ export function ProgressInputFields({
         name="nextWeekTask"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Next week's tasks</FormLabel>
+            <FormLabel>Next weeks tasks</FormLabel>
             <FormControl>
               <Input
                 type="text"

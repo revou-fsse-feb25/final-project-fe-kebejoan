@@ -5,14 +5,12 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,11 +23,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { getRandomValues } from "crypto";
 import { toast } from "sonner";
 
-const login = () => {
+const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -137,4 +133,4 @@ const login = () => {
 //   console.log(values);
 // }
 
-export default login;
+export default Login;

@@ -23,7 +23,7 @@ export default function Timesheet({ params }: PageProps) {
         setTimesheet(data);
       })();
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, params]);
 
   return (
     <>

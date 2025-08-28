@@ -11,14 +11,14 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Edit, Edit2 } from "lucide-react";
+import { Edit } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ pjtNo: string }>;
 }
 
 function ProjectPhase({ project }: { project?: T.Project }) {
-  let keys: (keyof T.Project)[] = [
+  const keys: (keyof T.Project)[] = [
     "phase1EndDate",
     "phase2EndDate",
     "phase3EndDate",
@@ -177,7 +177,7 @@ export default function Project({ params }: PageProps) {
         setProject(data);
       })();
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, params]);
 
   return (
     <>

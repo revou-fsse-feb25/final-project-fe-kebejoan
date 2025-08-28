@@ -27,20 +27,27 @@ export default function Progress() {
   const { session, auth } = useAuth();
   const [progress, setProgress] = useState<ProgressReport[]>([]);
 
-  const loadReports = async () => {
-    try {
-      const data = await getReports(session?.user.role as UserRole);
-      setProgress(data);
-    } catch (err) {
-      console.error("Error fetching progress:", err);
-    }
-  };
+  // const loadReports = async () => {
+  //   try {
+  //     const data = await getReports(session?.user.role as UserRole);
+  //     setProgress(data);
+  //   } catch (err) {
+  //     console.error("Error fetching progress:", err);
+  //   }
+  // };
 
   useEffect(() => {
     if (auth.isAuth) {
-      loadReports();
+      (async () => {
+        try {
+          const data = await getReports(session?.user.role as UserRole);
+          setProgress(data);
+        } catch (err) {
+          console.error("Error fetching progress:", err);
+        }
+      })();
     }
-  }, [auth.isAuth]);
+  }, [auth.isAuth, session?.user.role]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 w-full">
