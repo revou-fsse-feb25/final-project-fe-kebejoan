@@ -1,185 +1,44 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollBar } from "@/components/ui/scroll-area";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useAuth } from "@/hooks/useAuth";
 import React, { useEffect, useState } from "react";
 import * as T from "@/types/tableTypes";
-import { fetchProjectByPjtNo } from "@/services/api/api.projects";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
+import {
+  deleteProject,
+  fetchProjectByPjtNo,
+} from "@/services/api/api.projects";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Edit } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+import { ProjectIdentity } from "./ProjectIdentity";
+import { ProjectExecutionStatus } from "./ProjectExecutionStatus";
+import { ProjectPhase } from "./ProjectPhase";
+import { ProjectAssignments } from "./ProjectAssignments";
 
 interface PageProps {
   params: Promise<{ pjtNo: string }>;
 }
 
-function ProjectPhase({ project }: { project?: T.Project }) {
-  const keys: (keyof T.Project)[] = [
-    "phase1EndDate",
-    "phase2EndDate",
-    "phase3EndDate",
-    "phase4EndDate",
-    "phase5EndDate",
-    "phase6EndDate",
-    "phase7EndDate",
-    "phase8EndDate",
-    "phase9EndDate",
-  ];
-
-  return (
-    <Card className="w-full h-full">
-      <CardHeader className="font-bold">
-        <CardTitle className="text-xl">Project Phase End Date</CardTitle>
-        <Separator />
-      </CardHeader>
-      <CardContent className="w-full">
-        <div className="grid grid-cols-4">
-          {keys.map((key, index) => {
-            const dateStr = project?.[key] as string | undefined;
-            return (
-              <React.Fragment key={key}>
-                <div className="font-bold">Phase{index + 1}</div>
-                <div key={index}>
-                  {": "}
-                  {dateStr ? new Date(dateStr).toLocaleDateString() : "N/A"}
-                </div>
-              </React.Fragment>
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ProjectAssignments({ project }: { project?: T.Project }) {
-  return (
-    <Card className="w-full h-full">
-      <CardHeader className="font-bold">
-        <CardTitle className="text-xl">Project Assignments</CardTitle>
-        <Separator />
-      </CardHeader>
-      <CardContent className="w-full">
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-2">
-          <div className="font-bold col-span-1">Project Manager</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-2 2xl:col-span-2 text-wrap">
-            {": "}
-            {project?.assignedPM?.name} {"("}
-            {project?.assignedPM?.code}
-            {")"}
-          </div>
-          <div className="font-bold col-span-1">System Engineer</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-2 2xl:col-span-2 text-wrap">
-            {": "}
-            {project?.assignedSE?.name} {"("}
-            {project?.assignedSE?.code}
-            {")"}
-          </div>
-          <div className="font-bold col-span-1">Project Engineer</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-2 2xl:col-span-2 text-wrap">
-            {": "}
-            {project?.assignedPE?.name} {"("}
-            {project?.assignedPE?.code}
-            {")"}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ProjectExecutionStatus({ project }: { project?: T.Project }) {
-  let currentPhaseEndDate: string | null = null;
-
-  if (project?.currentPhaseId) {
-    const key = `phase${project.currentPhaseId}EndDate` as keyof T.Project;
-    currentPhaseEndDate = project[key] as string;
-  }
-  return (
-    <Card className="w-full h-full">
-      <CardHeader className="font-bold">
-        <CardTitle className="text-xl">Execution Status</CardTitle>
-        <Separator />
-      </CardHeader>
-      <CardContent className="w-full">
-        <div className="flex flex-col items-center gap-1">
-          <div className="flex gap-2">
-            <Badge
-              className="font-bold text-2xl"
-              variant={
-                project?.executionStatus === T.ExecutionStatus.LAGGING
-                  ? "destructive"
-                  : "default"
-              }
-            >
-              {project?.currentPhase?.phaseCode}
-            </Badge>
-            <Badge
-              className="font-bold text-2xl"
-              variant={
-                project?.executionStatus === T.ExecutionStatus.LAGGING
-                  ? "destructive"
-                  : "default"
-              }
-            >
-              {project?.executionStatus}
-            </Badge>
-          </div>
-          <Separator className="my-2" />
-          <span className=" text-">
-            {project?.currentPhase?.phaseCode} scheduled to be finished at:{" "}
-            {currentPhaseEndDate
-              ? new Date(currentPhaseEndDate).toLocaleDateString()
-              : "N/A"}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ProjectIdentity({ project }: { project?: T.Project }) {
-  return (
-    <Card className="w-full h-full">
-      <CardHeader className="font-bold">
-        <CardTitle className="text-xl">Project Identity</CardTitle>
-        <Separator />
-      </CardHeader>
-      <CardContent className="w-full">
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 gap-2">
-          <div className="font-bold col-span-1">Project Number</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
-            {": "}
-            {project?.pjtNo}
-          </div>
-          <div className="font-bold col-span-1">Project Name</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
-            {": "}
-            {project?.pjtName}
-          </div>
-          <div className="font-bold col-span-1">EPC</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
-            {": "}
-            {project?.epcName}
-          </div>
-          <div className="font-bold col-span-1">Owner</div>
-          <div className="col-span-1 md:col-span-2 lg:col-span-4 2xl:col-span-6 text-wrap">
-            {": "}
-            {project?.ownerName}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
 export default function Project({ params }: PageProps) {
   const { session, auth } = useAuth();
   const [project, setProject] = useState<T.Project>();
+  const router = useRouter();
 
   useEffect(() => {
     if (auth.isAuth) {
@@ -191,19 +50,65 @@ export default function Project({ params }: PageProps) {
     }
   }, [auth.isAuth, params]);
 
+  async function onClick() {
+    try {
+      if (project) {
+        const deleted = await deleteProject(project.id);
+        if (deleted.status === 200) {
+          toast.success("Project deleted successfully!");
+          router.push("/main/projects");
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete project", err);
+      toast.error("Failed to delete project");
+    }
+  }
+
+  if (!project) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
-      {/* <div>{(await params).pjtNo}</div> */}
       <div className="w-full flex justify-between my-2">
         <span className="text-2xl font-bold">
           {project?.pjtNo} -- {project?.pjtName}
         </span>
         {(auth.isAdmin || session?.user.role === T.UserRole.PM) && (
-          <Link href={`/main/projects/${project?.pjtNo}/edit`}>
-            <Button className="cursor-pointer">
-              <Edit />
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            {auth.isAdmin && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" className="cursor-pointer">
+                    <Trash />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      this project and remove your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={onClick}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+            <Link href={`/main/projects/${project?.pjtNo}/edit`}>
+              <Button className="cursor-pointer">
+                <Edit />
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 w-full">

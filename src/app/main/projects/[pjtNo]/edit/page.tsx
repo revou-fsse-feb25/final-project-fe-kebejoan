@@ -48,7 +48,7 @@ export default function EditProject({ params }: PageProps) {
       })();
       // setProject(project);
     }
-  }, [auth.isAuth, params, project]);
+  }, [auth.isAuth, params]);
 
   const form = useForm<CreateProjectFormValues>({
     //TODO: Still incorrect typing
@@ -131,7 +131,11 @@ export default function EditProject({ params }: PageProps) {
 
   return (
     <div className="container mx-auto py-6">
-      <h1 className="text-2xl font-bold mb-6">Create New Project</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Edit: {project.pjtNo}
+        {" | "}
+        {project.pjtName}
+      </h1>
 
       <Form {...form}>
         <form
