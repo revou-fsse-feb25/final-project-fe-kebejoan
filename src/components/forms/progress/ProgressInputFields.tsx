@@ -22,11 +22,9 @@ import { phaseAdvanceLookUp, phaseLookUp } from "@/types/lookUp";
 export function ProgressInputFields({
   form,
   projects,
-  selectedProject,
 }: {
   form: UseFormReturn<CreateProgressReportFormValues>;
   projects: Project[];
-  selectedProject: Project | null;
 }) {
   return (
     <div className="col-span-1 xl:col-span-2 space-y-8">

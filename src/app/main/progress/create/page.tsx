@@ -23,7 +23,6 @@ export default function CreateProgressReport() {
   const router = useRouter();
   const { session, auth } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const form = useForm<CreateProgressReportFormValues>({
     resolver: zodResolver(createProgressSchema),
@@ -111,11 +110,7 @@ export default function CreateProgressReport() {
           )}
           className="gap-4 w-full flex flex-col"
         >
-          <ProgressInputFields
-            form={form}
-            projects={projects}
-            selectedProject={selectedProject}
-          />
+          <ProgressInputFields form={form} projects={projects} />
 
           <Button type="submit" className="w-full col-span-1 ">
             Create Progress Report
