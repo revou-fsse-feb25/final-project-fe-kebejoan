@@ -100,3 +100,13 @@ Feel free to open and run the project on your local machine!
 ```
 
 ## Some Pictures
+
+<img src="./public/SS1.png"/>
+<img src="./public/SS2.png"/>
+<img src="./public/SS3.png"/>
+<img src="./public/SS4.png"/>
+<img src="./public/SS5.png"/>
+<img src="./public/SS6.png"/>
+<img src="./public/SS7.png"/>
+<img src="./public/SS8.png"/>
+<img src="./public/SS9.png"/>
