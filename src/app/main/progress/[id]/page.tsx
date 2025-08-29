@@ -1,19 +1,25 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchProgressReportById } from "@/services/api/api.progress";
+import { fetchProjectById, updateProject } from "@/services/api/api.projects";
 import * as T from "@/types/tableTypes";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface PageProps {
   params: Promise<{ id: number }>;
 }
 
 export default function Progress({ params }: PageProps) {
-  const { auth } = useAuth();
+  const { session, auth } = useAuth();
   const [progress, setProgress] = useState<T.ProgressReport>();
+  const [authorizedToAdvance, setAuthorizedToAdvance] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (auth.isAuth) {
@@ -25,10 +31,48 @@ export default function Progress({ params }: PageProps) {
     }
   }, [auth.isAuth, params]);
 
+  useEffect(() => {
+    if (
+      session?.user.role === T.UserRole.PM &&
+      progress?.advancePhase === true
+    ) {
+      setAuthorizedToAdvance(true);
+    } else {
+      setAuthorizedToAdvance(false);
+    }
+  }, [session?.user, progress?.advancePhase]);
+
+  async function onClick() {
+    try {
+      const project = await fetchProjectById(progress?.project?.id as number);
+      if (!project) {
+        throw new Error("Project not found");
+      }
+      const updatedProject = await updateProject(
+        progress?.project?.id as number,
+        { currentPhaseId: (project.currentPhaseId ?? 0) + 1 }
+      );
+      if (!updatedProject) {
+        throw new Error("Failed to advance phase");
+      }
+    } catch (err) {
+      console.error("Failed to advance phase", err);
+      toast.error("Failed to advance phase");
+    }
+    router.push(`/main/projects/${progress?.project?.pjtNo}`);
+    toast.success("Phase advanced successfully!");
+  }
+
   return (
     <>
-      <span className="flex gap-2 ">
+      <span className="flex gap-2 justify-between">
         <div className="text-2xl font-bold">{progress?.project?.pjtNo}</div>
+        {authorizedToAdvance && (
+          <div className="flex gap-2 items-center">
+            <span>Accept Phase Advance?</span>
+            <Button onClick={onClick}> ACCEPT </Button>
+          </div>
+        )}
       </span>
       <div className="w-full py-2">
         <Card className="w-full h-full py-2">

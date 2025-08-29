@@ -107,16 +107,28 @@ function ProjectExecutionStatus({ project }: { project?: T.Project }) {
       </CardHeader>
       <CardContent className="w-full">
         <div className="flex flex-col items-center gap-1">
-          <Badge
-            className="font-bold text-2xl"
-            variant={
-              project?.executionStatus === T.ExecutionStatus.LAGGING
-                ? "destructive"
-                : "default"
-            }
-          >
-            {project?.executionStatus}
-          </Badge>
+          <div className="flex gap-2">
+            <Badge
+              className="font-bold text-2xl"
+              variant={
+                project?.executionStatus === T.ExecutionStatus.LAGGING
+                  ? "destructive"
+                  : "default"
+              }
+            >
+              {project?.currentPhase?.phaseCode}
+            </Badge>
+            <Badge
+              className="font-bold text-2xl"
+              variant={
+                project?.executionStatus === T.ExecutionStatus.LAGGING
+                  ? "destructive"
+                  : "default"
+              }
+            >
+              {project?.executionStatus}
+            </Badge>
+          </div>
           <Separator className="my-2" />
           <span className=" text-">
             {project?.currentPhase?.phaseCode} scheduled to be finished at:{" "}

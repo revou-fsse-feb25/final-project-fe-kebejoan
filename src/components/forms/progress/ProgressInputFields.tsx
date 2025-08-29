@@ -22,9 +22,11 @@ import { phaseAdvanceLookUp, phaseLookUp } from "@/types/lookUp";
 export function ProgressInputFields({
   form,
   projects,
+  selectedProject,
 }: {
   form: UseFormReturn<CreateProgressReportFormValues>;
   projects: Project[];
+  selectedProject: Project | null;
 }) {
   return (
     <div className="col-span-1 xl:col-span-2 space-y-8">
@@ -79,12 +81,14 @@ export function ProgressInputFields({
                 onValueChange={(val) => field.onChange(Number(val))}
                 value={field.value ? String(field.value) : undefined}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" disabled>
                   <SelectValue placeholder="Select Project Phase" />
                 </SelectTrigger>
                 <SelectContent>
                   {phaseLookUp?.map((p) => (
                     <SelectItem key={p.id} value={p.id.toString()}>
+                      {p.phaseCode}
+                      {" | "}
                       {p.phaseName}
                     </SelectItem>
                   ))}

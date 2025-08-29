@@ -4,6 +4,7 @@ import { ProgressInputFields } from "@/components/forms/progress/ProgressInputFi
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useAuth } from "@/hooks/useAuth";
+import { fetchProjectById } from "@/services/api/api.projects";
 import { getMyProjects, reportProgress } from "@/services/api/api.users-me";
 import { createProgressSchema } from "@/types/schemas";
 import { Project } from "@/types/tableTypes";
@@ -22,6 +23,7 @@ export default function CreateProgressReport() {
   const router = useRouter();
   const { session, auth } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const form = useForm<CreateProgressReportFormValues>({
     resolver: zodResolver(createProgressSchema),
@@ -60,6 +62,21 @@ export default function CreateProgressReport() {
     }
   }, [auth.isAuth, session, form]);
 
+  useEffect(() => {
+    if (form.getValues().projectId) {
+      (async () => {
+        try {
+          const data = await fetchProjectById(form.getValues().projectId);
+          if (data) {
+            form.setValue("pjtPhaseId", data.currentPhaseId as number);
+          }
+        } catch (error) {
+          console.error("Failed to fetch projects", error);
+        }
+      })();
+    }
+  }, [form.watch("projectId")]);
+
   const onSubmit = async (values: CreateProgressReportFormValues) => {
     console.log("onsubmit values:", values);
     try {
@@ -94,7 +111,11 @@ export default function CreateProgressReport() {
           )}
           className="gap-4 w-full flex flex-col"
         >
-          <ProgressInputFields form={form} projects={projects} />
+          <ProgressInputFields
+            form={form}
+            projects={projects}
+            selectedProject={selectedProject}
+          />
 
           <Button type="submit" className="w-full col-span-1 ">
             Create Progress Report
